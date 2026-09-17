@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rhizzy — Software Developer & Cybersecurity Builder</title>
+<meta name="description" content="Rhizzy: software developer, cybersecurity builder, and technology entrepreneur. Projects, skills, and how to connect.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0E14;
+    --bg-soft: #0D131C;
+    --panel: rgba(255,255,255,0.045);
+    --panel-border: rgba(255,255,255,0.09);
+    --text: #EDF2F7;
+    --text-dim: #8894A3;
+    --text-faint: #5B6472;
+    --cyan: #6EE7F0;
+    --violet: #A78BFA;
+    --display: 'Space Grotesk', system-ui, sans-serif;
+    --body: 'Manrope', system-ui, sans-serif;
+    --max: 720px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .aurora {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .aurora::before,
+  .aurora::after,
+  .aurora .blob-3 {
+    content: "";
+    position: absolute;
+    width: 60vmax;
+    height: 60vmax;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.28;
+    will-change: transform;
+  }
+
+  .aurora::before {
+    background: var(--cyan);
+    top: -20%;
+    left: -10%;
+    animation: drift-a 34s ease-in-out infinite alternate;
+  }
+
+  .aurora::after {
+    background: var(--violet);
+    bottom: -25%;
+    right: -15%;
+    animation: drift-b 40s ease-in-out infinite alternate;
+  }
+
+  .aurora .blob-3 {
+    width: 45vmax;
+    height: 45vmax;
+    background: #4C6EF5;
+    top: 30%;
+    left: 35%;
+    opacity: 0.16;
+    animation: drift-c 46s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift-a {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(12vw, 10vh) scale(1.15); }
+  }
+
+  @keyframes drift-b {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(-10vw, -14vh) scale(1.1); }
+  }
+
+  @keyframes drift-c {
+    from { transform: translate(-8vw, 6vh) scale(1); }
+    to   { transform: translate(9vw, -8vh) scale(1.2); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora::before, .aurora::after, .aurora .blob-3 { animation: none; }
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---------- Mark ---------- */
+
+  .mark {
+    position: fixed;
+    top: 22px;
+    left: 22px;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    opacity: 0.85;
+  }
+
+  /* ---------- Hero ---------- */
+
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 24px 64px;
+  }
+
+  .hero-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(2.6rem, 10vw, 4.2rem);
+    letter-spacing: -0.02em;
+    margin: 0 0 14px;
+    background: linear-gradient(120deg, var(--text) 40%, var(--cyan) 75%, var(--violet) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    animation: rise 0.9s ease-out 0.1s forwards;
+  }
+
+  .hero-role {
+    font-family: var(--display);
+    font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+    color: var(--text-dim);
+    margin: 0 0 20px;
+    font-weight: 500;
+    opacity: 0;
+    animation: rise 0.9s ease-out 0.25s forwards;
+  }
+
+  .hero-tagline {
+    max-width: 46ch;
+    color: var(--text-dim);
+    font-size: 1.02rem;
+    margin: 0 0 40px;
+    opacity: 0;
+    animation: rise 0.9s ease-out 0.4s forwards;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-name, .hero-role, .hero-tagline { animation: none; opacity: 1; }
+  }
+
+  /* ---------- Links grid ---------- */
+
+  .links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+    gap: 10px;
+    width: 100%;
+    max-width: 460px;
+    opacity: 0;
+    animation: rise 0.9s ease-out 0.55s forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .links { animation: none; opacity: 1; }
+  }
+
+  .link-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: border-color 0.2s ease, transform 0.15s ease, background 0.2s ease;
+  }
+
+  .link-btn:hover, .link-btn:focus-visible {
+    border-color: var(--cyan);
+    background: rgba(110, 231, 240, 0.06);
+    transform: translateY(-1px);
+  }
+
+  .link-btn:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+  }
+
+  .link-btn svg { flex-shrink: 0; width: 18px; height: 18px; }
+
+  .link-btn.email { grid-column: span 2; justify-content: center; }
+
+  /* ---------- Sections ---------- */
+
+  section {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 72px 24px;
+  }
+
+  .section-label {
+    font-family: var(--display);
+    font-size: 0.85rem;
+    color: var(--cyan);
+    font-weight: 500;
+    margin: 0 0 12px;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(1.5rem, 4vw, 1.9rem);
+    font-weight: 600;
+    margin: 0 0 20px;
+    letter-spacing: -0.01em;
+  }
+
+  .prose p {
+    color: var(--text-dim);
+    font-size: 1.02rem;
+    max-width: 62ch;
+  }
+
+  .prose strong { color: var(--text); font-weight: 600; }
+
+  /* ---------- Security highlight ---------- */
+
+  .highlight {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-left: 2px solid var(--violet);
+    border-radius: 12px;
+    padding: 28px 26px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .highlight p {
+    color: var(--text-dim);
+    font-size: 0.98rem;
+    margin: 0;
+  }
+
+  .highlight strong { color: var(--text); }
+
+  /* ---------- Project ledger ---------- */
+
+  .ledger {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ledger-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 6px 16px;
+    padding: 22px 0;
+    border-top: 1px solid var(--panel-border);
+    text-decoration: none;
+    color: inherit;
+    transition: padding-left 0.2s ease;
+  }
+
+  .ledger-row:last-child { border-bottom: 1px solid var(--panel-border); }
+
+  .ledger-row.has-link:hover,
+  .ledger-row.has-link:focus-visible {
+    padding-left: 8px;
+    outline: none;
+  }
+
+  .ledger-row.has-link:hover .ledger-name,
+  .ledger-row.has-link:focus-visible .ledger-name {
+    color: var(--cyan);
+  }
+
+  .ledger-name {
+    font-family: var(--display);
+    font-size: 1.08rem;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  .ledger-status {
+    font-size: 0.8rem;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--panel-border);
+    color: var(--text-dim);
+    white-space: nowrap;
+    height: fit-content;
+  }
+
+  .ledger-status.live { color: var(--cyan); border-color: rgba(110,231,240,0.3); }
+  .ledger-status.dev { color: var(--violet); border-color: rgba(167,139,250,0.3); }
+  .ledger-status.beta { color: #F0B429; border-color: rgba(240,180,41,0.35); }
+
+  .ledger-desc {
+    grid-column: 1 / -1;
+    color: var(--text-dim);
+    font-size: 0.94rem;
+    max-width: 58ch;
+    margin: 4px 0 0;
+  }
+
+  /* ---------- Tags ---------- */
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    border: 1px solid var(--panel-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+  }
+
+  /* ---------- Footer ---------- */
+
+  footer {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    text-align: center;
+  }
+
+  footer p {
+    color: var(--text-faint);
+    font-size: 0.88rem;
+    margin: 0 0 4px;
+  }
+
+  footer .principle {
+    font-family: var(--display);
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-bottom: 18px;
+  }
+
+  @media (max-width: 480px) {
+    .links { grid-template-columns: 1fr 1fr; }
+    section { padding: 56px 20px; }
+  }
+
+  @media (max-width: 360px) {
+    .links { grid-template-columns: 1fr; }
+    .link-btn.email { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true"><div class="blob-3"></div></div>
+
+<svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <polygon points="20,3 35,11.5 35,28.5 20,37 5,28.5 5,11.5" style="stroke: var(--cyan); stroke-width: 1.4; opacity: 0.7;"/>
+  <circle cx="20" cy="14" r="2" style="fill: var(--cyan);"/>
+  <circle cx="13" cy="24" r="2" style="fill: var(--violet);"/>
+  <circle cx="27" cy="24" r="2" style="fill: var(--text);"/>
+  <line x1="20" y1="14" x2="13" y2="24" style="stroke: var(--text-faint); stroke-width: 1;"/>
+  <line x1="20" y1="14" x2="27" y2="24" style="stroke: var(--text-faint); stroke-width: 1;"/>
+  <line x1="13" y1="24" x2="27" y2="24" style="stroke: var(--text-faint); stroke-width: 1;"/>
+</svg>
+
+<div class="content">
+
+  <section class="hero" style="padding-top:100px;">
+    <h1 class="hero-name">Rhizzy</h1>
+    <p class="hero-role">Software Developer · Cybersecurity Builder · Technology Entrepreneur</p>
+    <p class="hero-tagline">I build software, break it on purpose to understand it, and turn ideas into working products.</p>
+
+    <nav class="links" aria-label="Connect">
+      <a class="link-btn" href="https://github.com/rhizzyxvaici171-cloud" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12c0 5.1 3.29 9.43 7.86 10.96.57.1.78-.25.78-.55v-1.94c-3.2.7-3.87-1.54-3.87-1.54-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.58.24 2.75.12 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.28 5.69.42.36.78 1.07.78 2.16v3.2c0 .31.21.66.79.55A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+        GitHub
+      </a>
+      <a class="link-btn" href="https://www.tiktok.com/@rhizzyxvaici?_r=1&_t=ZS-99jFt0uekvC" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82a4.28 4.28 0 0 1-3.14-1.4V15.4a5.1 5.1 0 1 1-4.4-5.05v2.36a2.75 2.75 0 1 0 1.93 2.63V2h2.46a4.28 4.28 0 0 0 3.15 4.13V8.4a6.62 6.62 0 0 1-3.15-.81v.01a6.6 6.6 0 0 0 3.15 8.72v-2.5a4.15 4.15 0 0 1-2.46-1.09V5.82Z"/></svg>
+        TikTok
+      </a>
+      <a class="link-btn" href="https://www.linkedin.com/in/rhizzy-x-vaici-53b99a3a8" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
+        LinkedIn
+      </a>
+      <a class="link-btn" href="https://www.facebook.com/profile.php?id=61592984109378" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5h2.52l.38-2.93h-2.9V8.7c0-.85.24-1.43 1.45-1.43h1.55V4.65c-.27-.04-1.2-.12-2.27-.12-2.25 0-3.79 1.37-3.79 3.89v2.17H8.03v2.93h2.41V21h3.06Z"/></svg>
+        Facebook
+      </a>
+      <a class="link-btn email" href="mailto:rhizzyxvaici171@gmail.com">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13Zm2.2.5 7.3 5.47a.8.8 0 0 0 .96 0L19.8 6H4.2ZM4 7.7V18h16V7.7l-7.03 5.27a2.3 2.3 0 0 1-2.74 0L4 7.7Z"/></svg>
+        rhizzyxvaici171@gmail.com
+      </a>
+    </nav>
+  </section>
+
+  <section class="prose">
+    <p class="section-label">What I build</p>
+    <h2>Software with security built into the architecture, not bolted on after.</h2>
+    <p>I'm a software developer and cybersecurity-focused builder working across full-stack web and mobile development, backend systems, and application security. I care about what happens when a system is used the way it wasn't meant to be: what a malicious client could forge, what a server should never trust, and what a database should enforce on its own.</p>
+    <p>Beyond the code, I'm interested in the business side of technology: taking an idea from problem to product, and building things that create real value rather than another feature in a crowded market.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Track record</p>
+    <div class="highlight">
+      <p>During an authorized security review, I discovered that an application had <strong>exposed API keys directly in client-side code</strong>, an oversight that could have led to significant, unplanned financial cost. I reported it and helped move the affected keys to secure server-side handling. It's the kind of small, overlooked detail that carries real financial risk, and it's why I treat security as part of the architecture rather than a final checklist item.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Featured work</p>
+    <div class="ledger">
+
+      <a class="ledger-row has-link" href="https://github.com/rhizzyxvaici171-cloud/-sentinel-" target="_blank" rel="noopener">
+        <span class="ledger-name">Sentinel</span>
+        <span class="ledger-status live">Live</span>
+        <p class="ledger-desc">Password strength meter and breach checker using the k-anonymity model, so a password is never transmitted to check it against known breaches.</p>
+      </a>
+
+      <a class="ledger-row has-link" href="https://github.com/rhizzyxvaici171-cloud/tokenscope" target="_blank" rel="noopener">
+        <span class="ledger-name">TokenScope</span>
+        <span class="ledger-status live">Live</span>
+        <p class="ledger-desc">JWT decoder and vulnerability inspector that flags real issues like alg:none, missing expiry, and weak signing algorithms.</p>
+      </a>
+
+      <a class="ledger-row has-link" href="https://github.com/rhizzyxvaici171-cloud/leakhound" target="_blank" rel="noopener">
+        <span class="ledger-name">LeakHound</span>
+        <span class="ledger-status live">Live</span>
+        <p class="ledger-desc">CLI tool that scans a codebase for accidentally committed API keys and credentials, built directly from a real finding.</p>
+      </a>
+
+      <div class="ledger-row">
+        <span class="ledger-name">SkillForge</span>
+        <span class="ledger-status dev">In development</span>
+        <p class="ledger-desc">A full-stack competitive skill platform with server-side grading, database-level anti-cheat, and idempotent reward settlement.</p>
+      </div>
+
+      <div class="ledger-row">
+        <span class="ledger-name">FitSure</span>
+        <span class="ledger-status dev">Concept stage</span>
+        <p class="ledger-desc">An AR-powered shopping confidence platform exploring virtual try-on and verified buyer evidence to reduce pre-purchase uncertainty.</p>
+      </div>
+
+      <div class="ledger-row">
+        <span class="ledger-name">R-Guild</span>
+        <span class="ledger-status beta">Beta, real users</span>
+        <p class="ledger-desc">A mobile security and digital-wellness app covering device recovery, permission monitoring, intruder detection, and family safety. In beta with real users, not yet on the Play Store.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Currently exploring</p>
+    <div class="tags">
+      <span class="tag">Application security</span>
+      <span class="tag">Cloud security</span>
+      <span class="tag">Linux</span>
+      <span class="tag">Penetration testing</span>
+      <span class="tag">Full-stack development</span>
+      <span class="tag">Mobile development</span>
+      <span class="tag">System design</span>
+      <span class="tag">Startup fundamentals</span>
+    </div>
+  </section>
+
+  <footer>
+    <p class="principle">Build. Learn. Secure. Innovate.</p>
+    <p>rhizzyxvaici171@gmail.com</p>
+    <p>© 2026 Rhizzy</p>
+  </footer>
+
+</div>
+
+<!-- Aurora background is pure CSS; no script needed. -->
+
+
+</body>
+</html>
